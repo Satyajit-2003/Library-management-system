@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Registration Page</title>
-	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
-</head>
-<body>
-	<div class="container">
+{% extends "auth_layout.html" %}
+{% block content %}
 		<h1>Registration</h1>
-		<form>
+		<form method="POST" action="{{ url_for('register_page_function') }}">
 			<label for="username">Username</label>
 			<input type="text" id="username" name="username" required>
 
@@ -24,6 +18,4 @@
             <br>
             <label>Already havean account? Click here to <a href="/login">login</a></label>
 		</form>
-	</div>
-</body>
-</html>
+{% endblock %}

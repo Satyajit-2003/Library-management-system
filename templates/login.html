@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Login to Library</title>
-	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
-</head>
-<body>
-	<div class="container">
+{% extends 'auth_layout.html' %}
+{% block content %}
 		<h1>Login to your account</h1>
-		<form>
+		<form method="POST" action="{{ url_for('login_page_function') }}>
 			<label for="username">Username</label>
 			<input type="text" id="username" name="username" required>
 
@@ -18,6 +12,4 @@
 
             <label>No account? Click here to <a href="/register">signup</a></label>
 		</form>
-	</div>
-</body>
-</html>
+{% endblock %}
