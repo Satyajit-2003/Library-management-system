@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login to Library</title>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+</head>
+<body>
+	<div class="container">
+		<h1>Login to your account</h1>
+		<form>
+			<label for="username">Username</label>
+			<input type="text" id="username" name="username" required>
+
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password" required>
+            <br>
+			<input type="submit" value="Login">
+
+            <label>No account? Click here to <a href="/register">signup</a></label>
+		</form>
+	</div>
+</body>
+</html>
