@@ -1,9 +1,9 @@
-dummy_users = {'admin': 'admin', 'satya': 'satya'}
+dummy_users = {'admin': 'admin', 'satya': 'satya', 'tannu': '@tannu'}
 
 def login(request_form):
     username = request_form['username']
     password = request_form['password']
-    if username in dummy_users and dummy_users[username] == password:
+    if username.lower() in dummy_users and dummy_users[username] == password:
         return True
     else:
         return False
