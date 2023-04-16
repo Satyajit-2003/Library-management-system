@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Library</title>
+	<title>Library Admin</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -40,10 +40,9 @@
     
         <div class="row">
           <div class="col-md-12">
-              <form class="form-inline float-right" action="{{url_for('ret_home')}}" method="POST">
+              <form class="form-inline float-right">
                   <div class="form-group">
-                      <input type="hidden" name="username" value="{{ curr_user.username }}">
-                      <input type="text" class="form-control mr-sm-2" name="book-search" placeholder="Search Book">
+                      <input type="text" class="form-control mr-sm-2" placeholder="Search Book">
                       <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
                   </div>
               </form>
@@ -52,7 +51,7 @@
                       <input type="hidden" name="username" value="{{ curr_user.username }}">
                       <button type="submit" class="btn btn-outline-success"><i class="fas fa-home"></i></button>
                   </form>
-                  <form class="form-group mr-2" action="{{url_for('view_borrowed_books')}}" method="POST">
+                  <form class="form-group mr-2">
                       <input type="hidden" name="username" value="{{ curr_user.username }}">
                       <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-book"></i> Borrowed books</button>
                   </form>

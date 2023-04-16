@@ -1,0 +1,68 @@
+{% extends 'home_layout.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="card my-4">
+      <div class="card-header">
+        <h3>Edit Profile</h3>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('view_profile') }}">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ curr_user.username }}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="email">Email ID:</label>
+            <input type="text" class="form-control" id="email" name="email" value="{{ curr_user.email }}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="firstname">First Name:</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" value="{{ curr_user.first_name }}">
+          </div>
+          <div class="form-group">
+            <label for="lastname">Last Name:</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" value="{{ curr_user.last_name }}">
+          </div>
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" class="form-control" id="address" name="address" value="{{ curr_user.address }}">
+          </div>
+          <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" class="form-control" id="city" name="city" value="{{ curr_user.city }}">
+          </div>
+          <div class="form-group">
+            <label for="state">State:</label>
+            <input type="text" class="form-control" id="state" name="state" value="{{ curr_user.state }}">
+          </div>
+          <div class="form-group">
+            <label for="pincode">Pincode:</label>
+            <input type="text" class="form-control" id="pincode" name="pincode" value="{{ curr_user.pincode }}">
+          </div>
+          <div class="form-group">
+            <label for="pincode">Mobile Number:</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ curr_user.phone }}">
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter new password">
+          </div>
+          <div class="form-group">
+            <label for="confirm">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirm" name="confirm" placeholder="Confirm new password">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>            
+            <form action="{{url_for('ret_home')}}" method="POST">
+              <input type="hidden" name="username" value="{{ curr_user.username }}">
+              <button type="submit" class="btn btn-outline-secondary">Cancel</button>
+            </form>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

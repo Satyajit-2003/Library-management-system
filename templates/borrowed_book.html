@@ -16,16 +16,13 @@
         <p><strong>Language:</strong> {{ book.language }}</p>
     </div>
     <div class="col-md-2">
-        <p><strong>Pages:</strong> {{ book.pages }}</p>
+        <p><strong>Borrow Date:</strong> {{ book.date }}</p>
     </div>
     <div class="col-md-1">
-        <p><strong>Qty:</strong> {{book.quantity}}</p>
-    </div>
-    <div class="col-md-1">
-        <form method="POST" action="{{ url_for('borrow_book') }}">
+        <form method="POST" action="{{ url_for('return_book') }}">
             <input type="hidden" name="book-id" value="{{ book.id }}">
             <input type="hidden" name="username" value="{{ curr_user.username }}">
-            <button class="btn btn-success" type="submit">Borrow</button>
+            <button class="btn btn-success" type="submit">Return</button>
         </form>        
     </div>
 </div>

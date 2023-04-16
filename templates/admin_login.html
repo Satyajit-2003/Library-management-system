@@ -1,0 +1,15 @@
+{% extends 'auth_layout.html' %}
+{% block content %}
+		<h1>Admin Login</h1>
+		<form method="POST" action="{{ url_for('admin_login') }}">
+			<label for="username">Username</label>
+			<input type="text" class="form-control" id="username" name="username" value="admin" required readonly>
+            
+			<label for="password">Password</label>
+			<input type="password" class="form-control" id="password" name="password" required>
+            <br>
+			<input type="submit" value="Login">
+                
+            <label><a href="/">Not admin?</a></label>
+		</form>
+{% endblock %}
