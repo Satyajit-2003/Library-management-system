@@ -3,14 +3,13 @@
 		<h1>Login to your account</h1>
 		<form method="POST" action="{{ url_for('login_page_function') }}">
 			<label for="username">Username</label>
-			<input type="text" id="username" class="form-control" name="username" value="tannu" required>
+			<input type="text" id="username" class="form-control" name="username" value="" required>
             
 			<label for="password">Password</label>
-			<input type="password" id="password" class="form-control" name="password" value="@tannu" required>
+			<input type="password" id="password" class="form-control" name="password" value="" required>
             <br>
 			<input type="submit" value="Login">
 
             <label>No account? Click here to <a href="/register">signup</a></label>
-			<label><a href="/admin_login">Admin Login</a></label>
 		</form>
 {% endblock %}

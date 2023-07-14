@@ -1,53 +1,49 @@
-from classes import book, borrowed_books
+from classes import book, borrowed_book
+import sqlite3
+import datetime 
 
-
-book_list = []
-book_list.append(book(1, 'To Kill a Mockingbird', 'Harper Lee', 'English', 281, 6))
-book_list.append(book(2, 'The Great Gatsby', 'F. Scott Fitzgerald', 'English', 218, 5))
-book_list.append(book(3, 'One Hundred Years of Solitude', 'Gabriel García Márquez', 'Spanish', 417, 4))
-book_list.append(book(4, 'The Brothers Karamazov', 'Fyodor Dostoevsky', 'Russian', 824, 10))
-book_list.append(book(5, 'The Catcher in the Rye', 'J.D. Salinger', 'English', 234, 15))
-book_list.append(book(6, 'Pride and Prejudice', 'Jane Austen', 'English', 279, 19))
-book_list.append(book(7, 'The Odyssey', 'Homer', 'Greek', 416, 23))
-book_list.append(book(8, 'Crime and Punishment', 'Fyodor Dostoevsky', 'Russian', 551, 18))
-book_list.append(book(9, 'The Divine Comedy', 'Dante Alighieri', 'Italian', 798, 21))
-book_list.append(book(10, 'Beloved', 'Toni Morrison', 'English', 275, 5))
-
-borrowed_books_list = []
-borrowed_books_list.append(borrowed_books(1, 'tannu', 'To Kill a Mockingbird', 'Harper Lee', 'English', '2020-01-01'))
-borrowed_books_list.append(borrowed_books(2, 'tannu', 'The Great Gatsby', 'F. Scott Fitzgerald', 'English', '2020-01-01'))
-borrowed_books_list.append(borrowed_books(3, 'tannu', 'One Hundred Years of Solitude', 'Gabriel García Márquez', 'Spanish', '2020-01-01'))
-borrowed_books_list.append(borrowed_books(4, 'tannu', 'The Brothers Karamazov', 'Fyodor Dostoevsky', 'Russian', '2020-01-01'))
-borrowed_books_list.append(borrowed_books(5, 'tannu', 'The Catcher in the Rye', 'J.D. Salinger', 'English', '2020-01-01'))
-borrowed_books_list.append(borrowed_books(6, 'satya', 'Pride and Prejudice', 'Jane Austen', 'English', '2020-01-01'))
-borrowed_books_list.append(borrowed_books(7, 'satya', 'The Odyssey', 'Homer', 'Greek', '2020-01-01'))
-borrowed_books_list.append(borrowed_books(8, 'satya', 'Crime and Punishment', 'Fyodor Dostoevsky', 'Russian', '2020-01-01'))
-borrowed_books_list.append(borrowed_books(9, 'satya', 'The Divine Comedy', 'Dante Alighieri', 'Italian', '2020-01-01'))
-borrowed_books_list.append(borrowed_books(10, 'satya', 'Beloved', 'Toni Morrison', 'English', '2020-01-01'))
+conn = sqlite3.connect(r'./databases\main.db', check_same_thread=False)
+c = conn.cursor()
 
 def get_home_books():
-    return book_list[:8]
+    c.execute("SELECT * FROM book ORDER BY RANDOM() LIMIT 10;")
+    ret_list = []
+    res = c.fetchall()
+    for i in res:
+        ret_list.append(book(i[0], i[1], i[2], i[3], i[4], i[5]))
+    return ret_list
 
 def search_book(search_query):
+    search_query.replace("'", "''")
+    c.execute("SELECT * FROM book WHERE title LIKE '%{}%';".format(search_query))
+    res = c.fetchall()
     result = []
-    for book in book_list:
-        if search_query.lower() in book.title.lower() or search_query.lower() in book.author.lower():
-            result.append(book)
+    for i in res:
+        result.append(book(i[0], i[1], i[2], i[3], i[4], i[5]))
     return result
 
 def borrow_book_func(username, book_id):
-    # TODO: Add code to borrow book
-    # return True if book is borrowed successfully
+    c.execute("SELECT * FROM BORROW WHERE id = {} and username = '{}' and returndate = NULL;".format(book_id, username))
+    if len(c.fetchall()) > 0:
+        return False
+    c.execute("INSERT INTO BORROW VALUES ('{}', '{}', '{}', NULL);".format(
+        username, book_id, str( datetime.date.today() ) ))
+    c.execute("UPDATE book SET quantity = quantity - 1 WHERE id = {};".format(book_id));
+    conn.commit()
     return True
 
 def return_book_func(username, book_id):
-    # TODO: Add code to return book
-    # return True if book is returned successfully
+    c.execute("UPDATE book SET quantity = quantity + 1 WHERE id = {};".format(book_id))
+    c.execute("UPDATE BORROW SET returndate = '{}' WHERE id = {} and username = '{}';".format(
+        str( datetime.date.today() ), book_id, username))
+    conn.commit()
     return True
 
 def borrowed_books(username):
     result = []
-    for book in borrowed_books_list:
-        if username == book.username:
-            result.append(book)
+    c.execute("""SELECT b2.id, username, title, author, language, borrowdate, returndate FROM BORROW b1, BOOK b2 
+    WHERE b1.id = b2.id AND username = '{}' ORDER BY returndate;""".format(username))
+    res = c.fetchall()
+    for i in res:
+        result.append(borrowed_book(i[0], i[1], i[2], i[3], i[4], i[5], i[6]))
     return result

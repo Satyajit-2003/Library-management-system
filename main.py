@@ -13,7 +13,7 @@ def admin_login():
             return render_template(r"admin_home.html")
         else:
             flash(message="Invalid password", category="danger")
-    return render_template(r"admin_login.html")
+    return render_template(r"logged_admin_home.html")
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/login", methods=['GET', 'POST'])
@@ -23,6 +23,8 @@ def login_page_function():
             flash(message="Continue on admin login", category="danger")
             return render_template(r"admin_login.html")
         resp = login(request.form)
+
+        
         if not resp:
             flash(message="Invalid username or password", category="danger")
         else:
@@ -59,7 +61,7 @@ def borrow_book():
         if resp:
             flash(message=f"Borrowed book having id {id} sucessfully", category="success")
         else:
-            flash(message=f"Book having id {id} not available", category="danger")
+            flash(message=f"You already borrowed book having  {id}", category="danger")
     return render_template(r"logged_user_home.html", curr_user = user_obj(request.form['username']), books = get_home_books())
 
 @app.route("/request", methods=['GET', 'POST'])
@@ -115,7 +117,7 @@ def edit_book():
     if request.method == 'POST':
         id = request.form['book-id']
         flash(message=f"Edited book having id {id} sucessfully", category="success")
-    return render_template(r"logged_user_home.html", curr_user = user_obj(request.form['username']))
+    return render_template(r"logged_admin_home.html", curr_user = user_obj(request.form['username']))
 
 if __name__== "__main__":
     app.run(debug=True)

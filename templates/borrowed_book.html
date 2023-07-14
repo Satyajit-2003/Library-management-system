@@ -1,6 +1,13 @@
  
 {% extends "home_layout.html" %}
 {% block content %}
+    {% if books|length == 0 %}
+        <div class="row py-3">
+            <div class="col-md-12">
+            <h3 class="text-center">You have not borrowed any books yet.</h3>
+            </div>
+        </div>
+    {% endif %}
   {% for book in books %}
   <div class="row border-top py-3">
     <div class="col-md-1">
@@ -16,13 +23,17 @@
         <p><strong>Language:</strong> {{ book.language }}</p>
     </div>
     <div class="col-md-2">
-        <p><strong>Borrow Date:</strong> {{ book.date }}</p>
+        <p><strong>Borrow Date:</strong> {{ book.borrowdate }}</p>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-2">
         <form method="POST" action="{{ url_for('return_book') }}">
             <input type="hidden" name="book-id" value="{{ book.id }}">
             <input type="hidden" name="username" value="{{ curr_user.username }}">
-            <button class="btn btn-success" type="submit">Return</button>
+            {% if book.returndate == None %}
+                <button class="btn btn-success" type="submit">Return</button>
+            {% else %}
+                <p><strong>Return Date:</strong> {{ book.returndate }}</p>
+            {% endif %}
         </form>        
     </div>
 </div>
